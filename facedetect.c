@@ -21,8 +21,8 @@
 #include "ext/standard/info.h"
 #include "php_facedetect.h"
 
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+#include <opencv/cvd.h>
+#include <opencv/highguid.h>
 
 /* {{{ facedetect_functions[]
  *
