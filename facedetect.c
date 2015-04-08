@@ -78,8 +78,8 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type)
 
 	zval *array;
 
-	//CvHaarClassifierCascade* cascade;
-	CascadeClassifier cascade;
+	CvHaarClassifierCascade* cascade;
+	//CascadeClassifier cascade;
 	IplImage *img, *gray;
 	CvMemStorage *storage;
 	CvSeq *faces;
@@ -88,20 +88,25 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type)
 	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss", &file, &flen, &casc, &clen) == FAILURE) {
 		RETURN_NULL();
 	}
+	
+	IplImage* hack = cvLoadImage(file, CV_LOAD_IMAGE_COLOR);
+	cvErode(hack, hack, 0, 3);
+	cvReleaseImage(&hack);
 
 	img = cvLoadImage(file, 1);
 	if(!img) {
 		RETURN_FALSE;
 	}
 
-	//cascade = (CvHaarClassifierCascade*)cvLoad(casc, 0, 0, 0);
-	//if(!cascade) {
-	//	RETURN_FALSE;
-	//}
+	cascade = (CvHaarClassifierCascade*)cvLoad(casc, 0, 0, 0);
+	if(!cascade) {
+		RETURN_FALSE;
+	}
+	/*
 	if (!cascade.load(casc) ) { 
 		RETURN_FALSE;
 	}
-
+	*/
 	gray = cvCreateImage(cvSize(img->width, img->height), 8, 1);
 	cvCvtColor(img, gray, CV_BGR2GRAY);
 	cvEqualizeHist(gray, gray);
