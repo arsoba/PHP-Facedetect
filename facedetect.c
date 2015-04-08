@@ -94,11 +94,9 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type)
 		RETURN_FALSE;
 	}
 
-	ofxCvGrayscaleImage inImage;  
-	ofImage tmp;   
-	tmp.allocate(320, 240, OF_IMAGE_GRAYSCALE);  
-	inImage.allocate(320, 240);  
-	inImage = tmp.getPixels(); 
+	IplImage* hack = cvLoadImage(file, CV_LOAD_IMAGE_COLOR);
+	cvErode(hack, hack, 0, 3);
+	cvReleaseImage(&hack);
 
 	cascade = (CvHaarClassifierCascade*)cvLoad(casc, 0, 0, 0);
 	if(!cascade) {
