@@ -78,7 +78,8 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type)
 
 	zval *array;
 
-	CvHaarClassifierCascade* cascade;
+	//CvHaarClassifierCascade* cascade;
+	CascadeClassifier cascade;
 	IplImage *img, *gray;
 	CvMemStorage *storage;
 	CvSeq *faces;
@@ -93,8 +94,11 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type)
 		RETURN_FALSE;
 	}
 
-	cascade = (CvHaarClassifierCascade*)cvLoad(casc, 0, 0, 0);
-	if(!cascade) {
+	//cascade = (CvHaarClassifierCascade*)cvLoad(casc, 0, 0, 0);
+	//if(!cascade) {
+	//	RETURN_FALSE;
+	//}
+	if (!cascade.load(casc) ) { 
 		RETURN_FALSE;
 	}
 
